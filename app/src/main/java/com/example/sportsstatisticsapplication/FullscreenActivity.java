@@ -1,14 +1,30 @@
 package com.example.sportsstatisticsapplication;
 
 import android.annotation.SuppressLint;
-
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.SystemClock;
+import android.speech.RecognizerIntent;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.text.BreakIterator;
+import java.util.ArrayList;
+import java.util.Locale;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -19,6 +35,17 @@ public class FullscreenActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
+    private TextView txtView;
+    private Chronometer chronometer;
+    private long pauseOffset;
+    private Button startBtn;
+    private Button stopBtn;
+    private Button resetBtn;
+    private TextView teamOneTV;
+    private TextView teamTwoTV;
+    private AlertDialog editTextDialog;
+    private EditText editText;
+    private TextView teamTextView;
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -60,7 +87,7 @@ public class FullscreenActivity extends AppCompatActivity {
             if (actionBar != null) {
                 actionBar.show();
             }
-            mControlsView.setVisibility(View.VISIBLE);
+            mControlsView.setVisibility(View.GONE);
         }
     };
     private boolean mVisible;
@@ -85,29 +112,55 @@ public class FullscreenActivity extends AppCompatActivity {
         }
     };
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
+                WindowManager.LayoutParams.FLAG_FULLSCREEN);
         setContentView(R.layout.activity_fullscreen);
 
-        mVisible = true;
+        mVisible = false;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
+        txtView = findViewById(R.id.textView);
+        chronometer = findViewById(R.id.chronometer);
+        startBtn = findViewById(R.id.startBtn);
+        stopBtn = findViewById(R.id.stopBtn);
+        resetBtn = findViewById(R.id.resetBtn);
+        teamOneTV = findViewById(R.id.team_one);
+        teamTwoTV = findViewById(R.id.team_two);
+        editTextDialog = new AlertDialog.Builder(this).create();
+        editText = new EditText(this);
+
+        editTextDialog.setTitle("Change Team Name");
+        editTextDialog.setView(editText);
+        editTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                teamTextView.setText(editText.getText());
+            }
+        });
+        //minPicker = findViewById(R.id.minutePicker);
+        //secPicker = findViewById(R.id.secondPicker);
+        //secPicker.setMinValue(0);
+        //secPicker.setMaxValue(59);
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                toggle();
+                //toggle();
             }
         });
 
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        findViewById(R.id.dummy_button).setOnTouchListener(mDelayHideTouchListener);
+
+
     }
 
     @Override
@@ -120,13 +173,13 @@ public class FullscreenActivity extends AppCompatActivity {
         delayedHide(100);
     }
 
-    private void toggle() {
+    /*private void toggle() {
         if (mVisible) {
             hide();
         } else {
             show();
         }
-    }
+    }*/
 
     private void hide() {
         // Hide UI first
@@ -161,5 +214,79 @@ public class FullscreenActivity extends AppCompatActivity {
     private void delayedHide(int delayMillis) {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
+    }
+
+    public void getSpeechInput(View view) {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            startActivityForResult(intent, 12);
+        } else {
+            Toast.makeText(this, "This device does not support speech input", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        switch (requestCode)
+        {
+            case 12:
+            if (resultCode ==  RESULT_OK && data != null) {
+                ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                txtView.setText(result.get(0));
+            }
+             break;
+        }
+    }
+
+
+    public void startChronometer(View view) {
+
+            chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
+            chronometer.start();
+            startBtn.setVisibility(View.GONE);
+            resetBtn.setVisibility(View.VISIBLE);
+            stopBtn.setVisibility(View.VISIBLE);
+    }
+
+    public void resetChronometer(View view) {
+                chronometer.setBase(SystemClock.elapsedRealtime());
+                pauseOffset = 0;
+                stopBtn.setVisibility(View.GONE);
+                startBtn.setVisibility(View.VISIBLE);
+                //minPicker.setVisibility(View.VISIBLE);
+                //secPicker.setVisibility(View.VISIBLE);
+                chronometer.stop();
+
+            //1 second = 1000
+    }
+
+    public void stopChronometer(View view) {
+
+            chronometer.stop();
+            pauseOffset = SystemClock.elapsedRealtime() - chronometer.getBase();
+            stopBtn.setVisibility(View.GONE);
+            startBtn.setVisibility(View.VISIBLE);
+    }
+
+    public void changeText() {
+        editText.setText(teamTextView.getText());
+        editTextDialog.show();
+    }
+
+    public void changeTeamOne(View view) {
+        teamTextView = teamOneTV;
+        changeText();
+    }
+
+    public void changeTeamTwo(View view) {
+        teamTextView = teamTwoTV;
+        changeText();
     }
 }

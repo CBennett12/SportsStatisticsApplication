@@ -1,0 +1,16 @@
+//
+// Created by cbenn on 30/09/2019.
+//
+
+#ifndef SPORTS_STATISTICS_APPLICATION_MICROPHONE_H
+#define SPORTS_STATISTICS_APPLICATION_MICROPHONE_H
+
+
+
+class microphone {
+
+};
+
+
+
+#endif //SPORTS_STATISTICS_APPLICATION_MICROPHONE_H

@@ -2,5 +2,12 @@
     <string name="app_name">Sports Statistics Application</string>
 
     <string name="home_button">Begin</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="dummy_content"> </string>
+    <string name="microphone">microphone</string>
+    <string name="start">START</string>
+    <string name="reset">RESET</string>
+    <string name="stop">STOP</string>
+    <string name="team_1">Team 1</string>
+    <string name="team_2">Team 2</string>
+    <string name="default_score">0-00</string>
 </resources>
