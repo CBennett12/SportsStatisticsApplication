@@ -13,8 +13,6 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Chronometer;
 import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -22,9 +20,10 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Locale;
+
+import objects.Game;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -43,9 +42,12 @@ public class FullscreenActivity extends AppCompatActivity {
     private Button resetBtn;
     private TextView teamOneTV;
     private TextView teamTwoTV;
+    private TextView teamOneScore;
+    private TextView teamTwoScore;
     private AlertDialog editTextDialog;
     private EditText editText;
     private TextView teamTextView;
+    private Game game;
     private static final boolean AUTO_HIDE = true;
 
     /**
@@ -132,9 +134,14 @@ public class FullscreenActivity extends AppCompatActivity {
         resetBtn = findViewById(R.id.resetBtn);
         teamOneTV = findViewById(R.id.team_one);
         teamTwoTV = findViewById(R.id.team_two);
+        teamOneScore = findViewById(R.id.teamOneScore);
+        teamTwoScore = findViewById(R.id.teamTwoScore);
         editTextDialog = new AlertDialog.Builder(this).create();
         editText = new EditText(this);
-
+        String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()};
+        game = new Game(teamNames, 15);
+        teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()) );
+        teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()) );
         editTextDialog.setTitle("Change Team Name");
         editTextDialog.setView(editText);
         editTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
@@ -206,6 +213,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHidePart2Runnable);
         mHideHandler.postDelayed(mShowPart2Runnable, UI_ANIMATION_DELAY);
     }
+
 
     /**
      * Schedules a call to hide() in delay milliseconds, canceling any
@@ -283,10 +291,12 @@ public class FullscreenActivity extends AppCompatActivity {
     public void changeTeamOne(View view) {
         teamTextView = teamOneTV;
         changeText();
+        game.returnTeam(0).changeName(editText.getText().toString());
     }
 
     public void changeTeamTwo(View view) {
         teamTextView = teamTwoTV;
         changeText();
+        game.returnTeam(1).changeName(editText.getText().toString());
     }
 }

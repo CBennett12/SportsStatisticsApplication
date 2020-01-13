@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Team {
     private String name;
-    private ArrayList<Player> Players;
+    private ArrayList<Player> Players = new ArrayList<Player>();
     private int goals = 0;
     private int points = 0;
 
@@ -17,6 +17,12 @@ public Team(String name, int teamSize)
     }
 }
 
+public void changeName(String name)
+    {
+        this.name = name;
+        System.out.println(name);
+    }
+
 public void updateScore(String type, int update)
     {
         switch (type){
@@ -25,4 +31,21 @@ public void updateScore(String type, int update)
         }
     }
 
+    public int getGoals()
+    {
+        return goals;
+    }
+
+    public int getPoints()
+    {
+        return points;
+    }
+
+    public Player getPlayer(int jerseyNumber) {
+        for (int i = 0; i < Players.size(); i++) {
+            if (jerseyNumber == (Players.get(i).getJerseyNumber()));
+            return Players.get(i);
+        }
+        return null;
+    }
 }

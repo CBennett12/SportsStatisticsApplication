@@ -1,7 +1,6 @@
 package objects;
 
 public class Player {
-    private String name;
     private int number;
     private int goalFP = 0;
     private int pointFP = 0;
@@ -16,12 +15,10 @@ public class Player {
     private int freeCon = 0;
     private int sixtyFive = 0;
     private int yellowCard = 0;
-    private boolean redCard = false;
 
 
     public Player(String name, int number)
     {
-        this.name = name;
         this.number = number;
     }
 
@@ -32,6 +29,7 @@ public class Player {
 
     public void logStat(String stat, int change)
     {
+        boolean redCard = false;
         switch (stat)
         {
             case "pointFP":
@@ -95,14 +93,14 @@ public class Player {
             case "yellow":
             {
                 this.yellowCard = yellowCard + change;
-                this.redCard = this.yellowCard == 2;
+                redCard = this.yellowCard == 2;
 
             }
 
             case "red":
             {
                  {
-                    this.redCard = change == 1;
+                    redCard = change == 1;
                 }
             }
 
@@ -110,6 +108,9 @@ public class Player {
 
     }
 
-
+    public int getJerseyNumber()
+    {
+        return number;
+    }
 
 }
