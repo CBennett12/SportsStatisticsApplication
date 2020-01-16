@@ -140,8 +140,15 @@ public class FullscreenActivity extends AppCompatActivity {
         editText = new EditText(this);
         String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()};
         game = new Game(teamNames, 15);
-        teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()) );
-        teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()) );
+
+        chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener()
+        { //Listener for every tick of the stopwatch
+            public void onChronometerTick(Chronometer chronometer)
+                {
+                    teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
+                    teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
+                }
+        }                                       );
         editTextDialog.setTitle("Change Team Name");
         editTextDialog.setView(editText);
         editTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
