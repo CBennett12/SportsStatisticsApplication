@@ -17,5 +17,9 @@ public class Game {
     {
         return Teams.get(index);
     }
+    public ArrayList<Team> returnArray()
+    {
+        return Teams;
+    }
 
 }

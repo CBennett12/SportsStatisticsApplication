@@ -1,5 +1,7 @@
 package objects;
 
+import android.util.Log;
+
 import java.util.ArrayList;
 
 public class Team {
@@ -20,14 +22,22 @@ public Team(String name, int teamSize)
 public void changeName(String name)
     {
         this.name = name;
-        System.out.println(name);
     }
 
 public void updateScore(String type, int update)
     {
-        switch (type){
-            case "goal": goals = goals + update;
-            case "point": points = points + update;
+        switch (type)
+        {
+            case "goal":
+            {
+                goals = goals + update;
+                update = 0;
+            }
+            case "point":
+            {
+                points = points + update;
+                update = 0;
+            }
         }
     }
 
@@ -41,11 +51,27 @@ public void updateScore(String type, int update)
         return points;
     }
 
+    public String getName()
+    {
+        return name;
+    }
+
+
     public Player getPlayer(int jerseyNumber) {
         for (int i = 0; i < Players.size(); i++) {
             if (jerseyNumber == (Players.get(i).getJerseyNumber()));
             return Players.get(i);
         }
         return null;
+    }
+
+    public void clear()
+    {
+        goals = 0;
+        points = 0;
+        for (int i = 0; i<Players.size(); i++)
+        {
+            Players.set(i, new Player(i+1));
+        }
     }
 }
