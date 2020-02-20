@@ -4,6 +4,7 @@ public class Stat{
     int player;
     String Team;
     String stat;
+    String output;
 
     public void setPlayer(int player)
     {
@@ -20,12 +21,20 @@ public class Stat{
         this.stat = stat;
     }
 
+    public void setOutput(String output)
+    {
+        this.output = output;
+    }
+
+    public String getStat() {
+        return stat;
+    }
 
     public String toString()
     {
         if (player != 0 && Team != null && stat != null)
         {
-            return (Team + " number " + player + " " + stat);
+            return (Team + " number " + player + " " + output);
         }
         else return null;
     }

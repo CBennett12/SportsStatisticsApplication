@@ -221,6 +221,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 toast.show();
                 popoutLayout.setVisibility(View.GONE);
                 textParse.undoStat(game.returnArray());
+                txtView.setText("");
             }
         });
 
@@ -234,10 +235,15 @@ public class FullscreenActivity extends AppCompatActivity {
                 stopBtn.setVisibility(View.GONE);
                 startBtn.setVisibility(View.VISIBLE);
                 chronometer.stop();
+
                 for (int i = 0; i< 2; i++)
                 {
                     game.returnTeam(i).clear();
                 }
+
+                teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
+                teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
+                txtView.setText("");
 
             }
         });

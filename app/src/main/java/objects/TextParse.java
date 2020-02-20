@@ -26,7 +26,7 @@ public class TextParse {
         while (i <= (data.length-1)) // while there is still words to parse
         {
 
-            if (data[i].toLowerCase().matches("left") || data[i].toLowerCase().matches("right")) //if the next word is a team
+            if (data[i].toLowerCase().matches("left|right|write")) //if the next word is a team
             {
 
                 if (data[i].toLowerCase().matches("left")) //Set the team value to 0 for home or 1 for away
@@ -87,72 +87,72 @@ public class TextParse {
         {
             case 0:
             {
-                lastStat.setStat("scored a goal from play");
+                lastStat.setOutput("scored a goal from play");
                 return ("goalFP");
             }
             case 1:
             {
-                lastStat.setStat("scored a point from play");
+                lastStat.setOutput("scored a point from play");
                 return ("pointFP");
             }
             case 2:
             {
-                lastStat.setStat("scored a goal from a placed ball");
+                lastStat.setOutput("scored a goal from a placed ball");
                 return ("goalFF");
             }
             case 3:
             {
-                lastStat.setStat("scored a point from a placed ball");
+                lastStat.setOutput("scored a point from a placed ball");
                 return ("pointFF");
             }
             case 4:
             {
-                lastStat.setStat("hit the ball wide");
+                lastStat.setOutput("hit the ball wide");
                 return ("wide");
             }
             case 5:
             {
-                lastStat.setStat("hit the ball short to the goalkeeper");
+                lastStat.setOutput("hit the ball short to the goalkeeper");
                 return ("short");
             }
             case 6:
             {
-                lastStat.setStat("won possession");
+                lastStat.setOutput("won possession");
                 return ("posW");
             }
             case 7:
             {
-                lastStat.setStat("passed the ball");
+                lastStat.setOutput("passed the ball");
                 return ("pass");
             }
             case 8:
             {
-                lastStat.setStat("lost possession");
+                lastStat.setOutput("lost possession");
                 return ("posL");
             }
             case 9:
             {
-                lastStat.setStat("won a free");
+                lastStat.setOutput("won a free");
                 return ("freeAward");
             }
             case 10:
             {
-                lastStat.setStat("lost a free");
+                lastStat.setOutput("lost a free");
                 return ("freeCon");
             }
             case 11:
             {
-                lastStat.setStat("Won a 65");
+                lastStat.setOutput("Won a 65");
                 return ("65");
             }
             case 12:
             {
-                lastStat.setStat("received a yellow card");
+                lastStat.setOutput("received a yellow card");
                 return ("yellow");
             }
             case 13:
             {
-                lastStat.setStat("received a red card");
+                lastStat.setOutput("received a red card");
                 return ("red");
             }
 
@@ -180,6 +180,19 @@ public class TextParse {
 
     public void undoStat(ArrayList<Team> Teams)
     {
-        Teams.get(team).getPlayer(player).logStat(currentStat, -1);
+        Teams.get(team).getPlayer(player).logStat(lastStat.getStat(), -1);
+        if (lastStat.getStat().matches("goalFP|pointFP|goalFF|pointFF"))
+        {
+            if (lastStat.getStat().matches("goalFP|goalFF"))
+            {
+                Teams.get(team).updateScore("goal", -1);
+            }
+
+            else
+                {
+                    Teams.get(team).updateScore("point", -1);
+                }
+        }
+
     }
 }
