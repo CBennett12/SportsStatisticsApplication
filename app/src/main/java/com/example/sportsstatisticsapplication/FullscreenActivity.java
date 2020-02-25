@@ -7,8 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
-import android.text.Layout;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -26,7 +24,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 import objects.Game;
 import objects.TextParse;
@@ -60,7 +57,6 @@ public class FullscreenActivity extends AppCompatActivity {
     private Game game;
     private TextParse textParse = new TextParse();
     private static final boolean AUTO_HIDE = true;
-    private FloatingActionButton fAB;
     private LinearLayout popoutLayout;
 
     /**
@@ -89,8 +85,7 @@ public class FullscreenActivity extends AppCompatActivity {
                     | View.SYSTEM_UI_FLAG_FULLSCREEN
                     | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
                     | View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
-                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
-                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION);
+                    | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         }
     };
     private View mControlsView;
@@ -118,7 +113,6 @@ public class FullscreenActivity extends AppCompatActivity {
      * while interacting with activity UI.
      */
     private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
-        @Override
         public boolean onTouch(View view, MotionEvent motionEvent) {
             if (AUTO_HIDE) {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
@@ -149,7 +143,7 @@ public class FullscreenActivity extends AppCompatActivity {
         teamTwoTV = findViewById(R.id.team_two);
         teamOneScore = findViewById(R.id.teamOneScore);
         teamTwoScore = findViewById(R.id.teamTwoScore);
-        fAB = findViewById(R.id.infoButton);
+        FloatingActionButton fAB = findViewById(R.id.infoButton);
         popoutLayout = findViewById(R.id.popoutLayout);
         helpBtn = findViewById(R.id.helpButton);
         undoBtn = findViewById(R.id.undoButton);
@@ -183,10 +177,16 @@ public class FullscreenActivity extends AppCompatActivity {
         fAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                popoutLayout.setVisibility(View.VISIBLE);
-                helpBtn.setVisibility(View.VISIBLE);
-                undoBtn.setVisibility(View.VISIBLE);
-                resetGameBtn.setVisibility(View.VISIBLE);
+                if (popoutLayout.getVisibility() == View.VISIBLE)
+                {
+                    popoutLayout.setVisibility(View.INVISIBLE);
+                }
+                else {
+                        popoutLayout.setVisibility(View.VISIBLE);
+                        helpBtn.setVisibility(View.VISIBLE);
+                        undoBtn.setVisibility(View.VISIBLE);
+                        resetGameBtn.setVisibility(View.VISIBLE);
+                     }
             }
         });
 
@@ -201,8 +201,7 @@ public class FullscreenActivity extends AppCompatActivity {
                             public void onClick(DialogInterface dialog, int which) {
                                 // Continue with delete operation
                                 helpDialog.hide();
-                                popoutLayout.setVisibility(View.GONE);
-                                //helpBtn.setVisibility(View.GONE);
+                                popoutLayout.setVisibility(View.INVISIBLE);
                             }
                         });
 
@@ -217,11 +216,12 @@ public class FullscreenActivity extends AppCompatActivity {
 
         undoBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast toast=Toast. makeText(getApplicationContext(),"last stat undone",Toast.LENGTH_SHORT);
-                toast.show();
-                popoutLayout.setVisibility(View.GONE);
+
+                popoutLayout.setVisibility(View.INVISIBLE);
                 textParse.undoStat(game.returnArray());
                 txtView.setText("");
+                Toast toast=Toast. makeText(getApplicationContext(),"last stat undone",Toast.LENGTH_SHORT);
+                toast.show();
             }
         });
 
@@ -229,7 +229,7 @@ public class FullscreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Toast toast=Toast.makeText(getApplicationContext(),"game reset",Toast.LENGTH_SHORT);
                 toast.show();
-                popoutLayout.setVisibility(View.GONE);
+                popoutLayout.setVisibility(View.INVISIBLE);
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 pauseOffset = 0;
                 stopBtn.setVisibility(View.GONE);
@@ -303,8 +303,7 @@ public class FullscreenActivity extends AppCompatActivity {
     @SuppressLint("InlinedApi")
     private void show() {
         // Show the system bar
-        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-                | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
+        mContentView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         mVisible = true;
 
         // Schedule a runnable to display UI elements after a delay
@@ -346,7 +345,9 @@ public class FullscreenActivity extends AppCompatActivity {
             if (resultCode ==  RESULT_OK && data != null) {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 textParse.ParseText(result.get(0), game.returnArray());
-                txtView.setText(textParse.getLastStat().toString());
+                //txtView.setText(textParse.getLastStat().toString());
+                Toast toast=Toast.makeText(getApplicationContext(),textParse.getLastStat().toString(),Toast.LENGTH_SHORT);
+                toast.show();
             }
              break;
         }

@@ -7,12 +7,11 @@ import java.util.ArrayList;
 
 
 public class TextParse {
-    String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
-    private String[] stats = {"goal", "point", "", "", "miss", "short", "turnover", "pass", "loses", "award", "concede", "sixty", "yellow", "red"};
+    private String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+    private String[] stats = {"goal", "point", "", "", "wide", "short", "turnover", "pass", "loses", "award", "concede", "sixty", "yellow", "red"};
     private int player;
     private Stat lastStat = new Stat();
     private int team;
-    private String currentStat;
 
     public TextParse(){}
 
@@ -51,7 +50,7 @@ public class TextParse {
                 }
                     if (i < data.length-1)i++;
                 {
-                    if (player != 0) ;
+                    if (player != 0)
                     {
                         for (int j = 0; j <= (stats.length - 1); j++) //compare next word to each stat
                         {
@@ -68,10 +67,12 @@ public class TextParse {
                                         } else i--; //if not, it is from play, so revert
                                     }
                                 }
-                                currentStat = getStat(j);
-                                Log.d("PARSING", currentStat);
-                                lastStat.setStat(currentStat);
-                                Teams.get(team).getPlayer(player).logStat(currentStat, 1);
+                                String currentStat = getStat(j);
+                                if (currentStat != null) {
+                                    Log.d("PARSING", currentStat);
+                                    lastStat.setStat(currentStat);
+                                    Teams.get(team).getPlayer(player).logStat(currentStat, 1);
+                                }
                             }
                         }
                     }
@@ -165,7 +166,7 @@ public class TextParse {
         return lastStat;
     }
 
-    int getNumber(String temp)
+    private int getNumber(String temp)
     {
         if (temp.matches("\\d|\\d+\\d"))
             return Integer.parseInt(temp);
@@ -180,19 +181,17 @@ public class TextParse {
 
     public void undoStat(ArrayList<Team> Teams)
     {
-        Teams.get(team).getPlayer(player).logStat(lastStat.getStat(), -1);
-        if (lastStat.getStat().matches("goalFP|pointFP|goalFF|pointFF"))
+        if (lastStat.getStat()!=null)
         {
-            if (lastStat.getStat().matches("goalFP|goalFF"))
-            {
-                Teams.get(team).updateScore("goal", -1);
-            }
-
-            else
-                {
+            Teams.get(team).getPlayer(player).logStat(lastStat.getStat(), -1);
+            if (lastStat.getStat().matches("goalFP|pointFP|goalFF|pointFF")) {
+                if (lastStat.getStat().matches("goalFP|goalFF")) {
+                    Teams.get(team).updateScore("goal", -1);
+                } else {
                     Teams.get(team).updateScore("point", -1);
                 }
+            }
         }
-
     }
+
 }

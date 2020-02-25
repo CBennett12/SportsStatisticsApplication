@@ -191,8 +191,7 @@
         android:layout_marginBottom="110dp"
         android:gravity="bottom"
         android:orientation="vertical"
-        android:visibility="visible"
-        tools:visibility="visible">
+        android:visibility="invisible">
 
         <Button
             android:id="@+id/resetButton"
@@ -202,8 +201,7 @@
             android:background="#E91E63"
             android:text="@string/reset"
             android:textColor="#FFFFFF"
-            android:visibility="gone"
-            tools:visibility="gone" />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/undoButton"
@@ -213,8 +211,7 @@
             android:background="#E91E63"
             android:text="@string/undo"
             android:textColor="#FFFFFF"
-            android:visibility="gone"
-            tools:visibility="gone" />
+            android:visibility="invisible" />
 
         <Button
             android:id="@+id/helpButton"
@@ -224,8 +221,7 @@
             android:background="#E91E63"
             android:text="@string/help"
             android:textColor="#FFFFFF"
-            android:visibility="gone"
-            tools:visibility="gone" />
+            android:visibility="invisible" />
 
     </LinearLayout>
 

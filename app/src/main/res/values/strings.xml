@@ -10,14 +10,14 @@
     <string name="undo">UNDO</string>
     <string name="team_1">Team 1</string>
     <string name="team_2">Team 2</string>
-    <string name="default_score">0-00</string>
+    <string name="default_score">0–00</string>
     <string name="help">HELP</string>
     <string name="message">"To use this app, you need to say three commands to log a stat.\n First, you say either \"left\" or \"right\" to denote the team on the left or right, then you say the player number, then you say the keyword for the stat in the glossary below:\n
         goal from play\t- goal\n
         point from play\t- point\n
         goal from a placed ball\t- goal free\n
         point from a placed ball\t- point free\n
-        wide ball\t- miss\n
+        wide ball\t- wide\n
         ball short to goalkeeper\t- short\n
         possession won\t- turnover\n
         pass completed\t- pass\n
