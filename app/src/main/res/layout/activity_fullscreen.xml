@@ -19,140 +19,179 @@
         android:layout_height="3dp" />
 
     <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/TopLayout"
+            android:layout_width="375dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="25dp"
+            android:baselineAligned="false"
+            android:orientation="horizontal"
+            android:weightSum="3">
+
+            <LinearLayout
+                android:id="@+id/TeamOneLayout"
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/team_one"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="changeTeamOne"
+                    android:text="@string/team_1"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textIsSelectable="false"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/teamOneScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/default_score"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/TimerLayout"
+                android:layout_width="0dp"
+                android:layout_height="134dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <Chronometer
+                    android:id="@+id/chronometer"
+                    android:layout_width="130dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:fontFamily="monospace"
+                    android:textAlignment="center"
+                    android:textColor="@android:color/white"
+                    android:textSize="25sp" />
+
+                <Button
+                    android:id="@+id/startBtn"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="startChronometer"
+                    android:text="@string/start"
+                    android:visibility="visible" />
+
+                <Button
+                    android:id="@+id/stopBtn"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="stopChronometer"
+
+                    android:text="@string/stop"
+                    android:visibility="gone" />
+
+                <Button
+                    android:id="@+id/resetBtn"
+                    style="@android:style/Widget.Button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:onClick="resetChronometer"
+                    android:text="@string/reset"
+                    android:textSize="14sp"
+                    android:visibility="visible" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/TeamTwoLayout"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/team_two"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onClick="changeTeamTwo"
+                    android:text="@string/team_2"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textIsSelectable="true"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:id="@+id/teamTwoScore"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="@string/default_score"
+                    android:textAlignment="center"
+                    android:textColor="#FFFFFF"
+                    android:textSize="25sp" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="402dp"
+            android:layout_height="544dp"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/leftTextView"
+                android:layout_width="134dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|start"
+                android:lineSpacingExtra="8sp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/centreTextView"
+                android:layout_width="134dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:lineSpacingExtra="8sp"
+                android:maxWidth="150dp"
+                android:text="@string/centreText"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+
+            <TextView
+                android:id="@+id/rightTextView"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center|end"
+                android:layout_weight="1"
+                android:lineSpacingExtra="8sp"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textSize="25sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/fullscreen_content_controls"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical">
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="369dp"
-        android:layout_height="73dp"
-        android:layout_gravity="center"
-        android:textAlignment="center"
-        android:textColor="#FFFFFF" />
-
-    <LinearLayout
-        android:id="@+id/TopLayout"
-        android:layout_width="375dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginTop="25dp"
-        android:baselineAligned="false"
-        android:orientation="horizontal"
-        android:weightSum="3">
-
-        <LinearLayout
-            android:id="@+id/TeamOneLayout"
-            android:layout_width="0dp"
-            android:layout_height="fill_parent"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/team_one"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="changeTeamOne"
-                android:text="@string/team_1"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textIsSelectable="false"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/teamOneScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/default_score"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp" />
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/TimerLayout"
-            android:layout_width="0dp"
-            android:layout_height="134dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <Chronometer
-                android:id="@+id/chronometer"
-                android:layout_width="130dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="monospace"
-                android:textAlignment="center"
-                android:textColor="@android:color/white"
-                android:textSize="25sp" />
-
-            <Button
-                android:id="@+id/startBtn"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="startChronometer"
-                android:text="@string/start"
-                android:visibility="visible" />
-
-            <Button
-                android:id="@+id/stopBtn"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="stopChronometer"
-
-                android:text="@string/stop"
-                android:visibility="gone" />
-
-            <Button
-                android:id="@+id/resetBtn"
-                style="@android:style/Widget.Button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:onClick="resetChronometer"
-                android:text="@string/reset"
-                android:textSize="14sp"
-                android:visibility="visible" />
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/TeamTwoLayout"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/team_two"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:onClick="changeTeamTwo"
-                android:text="@string/team_2"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textIsSelectable="true"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/teamTwoScore"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="@string/default_score"
-                android:textAlignment="center"
-                android:textColor="#FFFFFF"
-                android:textSize="25sp" />
-        </LinearLayout>
 
     </LinearLayout>
 
@@ -199,6 +238,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:background="#E91E63"
+            android:maxLines="1"
             android:text="@string/reset"
             android:textColor="#FFFFFF"
             android:visibility="invisible" />
@@ -209,6 +249,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:background="#E91E63"
+            android:maxLines="1"
             android:text="@string/undo"
             android:textColor="#FFFFFF"
             android:visibility="invisible" />
@@ -219,6 +260,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center|end"
             android:background="#E91E63"
+            android:maxLines="1"
             android:text="@string/help"
             android:textColor="#FFFFFF"
             android:visibility="invisible" />

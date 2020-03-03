@@ -22,6 +22,7 @@ public class TextParse {
         int i = 0;
         player = 0;
 
+
         while (i <= (data.length-1)) // while there is still words to parse
         {
 
@@ -41,9 +42,9 @@ public class TextParse {
                 i++;
                 player = getNumber(data[i]);
                 lastStat.setPlayer(player);
-                if (data[i].matches("(\\d+pt|PT)|(\\d+\\d+pt|PT)"))
+                if (data[i].matches("(\\d+(pt|PT))")  || data[i].matches("\\d+\\d+(pt|PT)"))
                 {
-                    player = getNumber(data[i].substring(0,(data[i].length()-3)));
+                    player = getNumber(data[i].substring(0,1));
                     lastStat.setPlayer(player);
                     data[i]=("point");
                 i--;

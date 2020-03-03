@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sports Statistics Application</string>
+    <string name="home_button">Tús</string>
+    <string name="stop">CRÍOCH</string>
+    <string name="team_1">FOIREANN 1</string>
+    <string name="help">CABHAIR</string>
+    <string name="team_2">FOIREANN 2</string>
+    <string name="microphone">micreafón</string>
+    <string name="start">TÚS</string>
+    <string name="reset">ATHSOCRÚ</string>
+    <string name="undo">CEALAIGH</string>
+    <string name="message">Chun an aip seo a úsaid...</string>
+    <string name="speech_prompt">Labhair Staitistic...</string>
+    <string name="centreText">"Ceannairí: \nCúl \nCuilín \nSeachaí \nGearr \nSeilbh Bu. \nSeilbh Ca. \nFeall Br. \nFeall Ca. "</string>
+</resources>

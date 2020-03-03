@@ -2,7 +2,7 @@
     <string name="app_name">Sports Statistics Application</string>
 
     <string name="home_button">Begin</string>
-    <string name="dummy_content"> </string>
+    <string name="dummy_content" translatable="false"> </string>
     <string name="microphone">microphone</string>
     <string name="start">START</string>
     <string name="reset">RESET</string>
@@ -10,8 +10,9 @@
     <string name="undo">UNDO</string>
     <string name="team_1">Team 1</string>
     <string name="team_2">Team 2</string>
-    <string name="default_score">0–00</string>
+    <string name="default_score" translatable="false">0–00</string>
     <string name="help">HELP</string>
+    <string name="centreText">Leaders:\nGoals\nPoints\nWides\nShort\nPoss. Won\nPoss. Lost\nFouls A.\nFouls C.</string>
     <string name="message">"To use this app, you need to say three commands to log a stat.\n First, you say either \"left\" or \"right\" to denote the team on the left or right, then you say the player number, then you say the keyword for the stat in the glossary below:\n
         goal from play\t- goal\n
         point from play\t- point\n
@@ -29,4 +30,5 @@
         straight red card awarded\t- red.\n
         For example,\n 'left 11 point'\n will log a point to the number 11 on the team on the left hand side of the screen.
         "</string>
+    <string name="speech_prompt">Speak Stat...</string>
 </resources>

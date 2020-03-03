@@ -50,6 +50,8 @@ public class FullscreenActivity extends AppCompatActivity {
     private TextView teamTwoTV;
     private TextView teamOneScore;
     private TextView teamTwoScore;
+    private TextView leftLeadersText;
+    private TextView rightLeadersText;
     private AlertDialog editTextDialog;
     private AlertDialog helpDialog;
     private EditText editText;
@@ -134,7 +136,6 @@ public class FullscreenActivity extends AppCompatActivity {
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
 
-        txtView = findViewById(R.id.textView);
         chronometer = findViewById(R.id.chronometer);
         startBtn = findViewById(R.id.startBtn);
         stopBtn = findViewById(R.id.stopBtn);
@@ -150,6 +151,8 @@ public class FullscreenActivity extends AppCompatActivity {
         resetGameBtn = findViewById(R.id.resetButton);
         editTextDialog = new AlertDialog.Builder(this).create();
         helpDialog = new AlertDialog.Builder(this).create();
+        leftLeadersText = findViewById(R.id.leftTextView);
+        rightLeadersText = findViewById(R.id.rightTextView);
 
         editText = new EditText(this);
         String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()};
@@ -161,6 +164,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 {
                     teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
                     teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
+
                 }
         }                                       );
         editTextDialog.setTitle("Change Team Name");
@@ -219,15 +223,14 @@ public class FullscreenActivity extends AppCompatActivity {
 
                 popoutLayout.setVisibility(View.INVISIBLE);
                 textParse.undoStat(game.returnArray());
-                txtView.setText("");
-                Toast toast=Toast. makeText(getApplicationContext(),"last stat undone",Toast.LENGTH_SHORT);
+                Toast toast=Toast. makeText(getApplicationContext(),"Last stat undone",Toast.LENGTH_SHORT);
                 toast.show();
             }
         });
 
         resetGameBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Toast toast=Toast.makeText(getApplicationContext(),"game reset",Toast.LENGTH_SHORT);
+                Toast toast=Toast.makeText(getApplicationContext(),"Game reset",Toast.LENGTH_SHORT);
                 toast.show();
                 popoutLayout.setVisibility(View.INVISIBLE);
                 chronometer.setBase(SystemClock.elapsedRealtime());
@@ -243,7 +246,8 @@ public class FullscreenActivity extends AppCompatActivity {
 
                 teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
                 teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
-                txtView.setText("");
+                leftLeadersText.setText("");
+                rightLeadersText.setText("");
 
             }
         });
@@ -325,7 +329,9 @@ public class FullscreenActivity extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE,"en-IE" ); //Locale.getDefault()
+        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault()); //Locale.getDefault()
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-IE");
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT,getString(R.string.speech_prompt));
 
         if (intent.resolveActivity(getPackageManager()) != null) {
             startActivityForResult(intent, 12);
@@ -336,20 +342,24 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch (requestCode)
+        if (requestCode == 12)
         {
-            case 12:
-            if (resultCode ==  RESULT_OK && data != null) {
+            if (resultCode == RESULT_OK && data != null)
+            {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 textParse.ParseText(result.get(0), game.returnArray());
-                //txtView.setText(textParse.getLastStat().toString());
-                Toast toast=Toast.makeText(getApplicationContext(),textParse.getLastStat().toString(),Toast.LENGTH_SHORT);
-                toast.show();
+                if (textParse.getLastStat().toString() != "")
+                {
+                    leftLeadersText.setText("\n"+game.returnTeam(0).toString());
+                    rightLeadersText.setText("\n"+game.returnTeam(1).toString());
+                    Toast toast = Toast.makeText(getApplicationContext(), textParse.getLastStat().toString(), Toast.LENGTH_SHORT);
+                    toast.show();
+                }
             }
-             break;
         }
     }
 

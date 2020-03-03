@@ -113,4 +113,29 @@ public class Player {
         return number;
     }
 
+    public int getStat(String stat)
+    {
+
+
+            if (stat.matches("goal"))
+                return this.goalFP+goalFF;
+            else if (stat.matches("point"))
+                return this.pointFP+pointFF;
+            else if (stat.matches( "wide"))
+                return this.wide;
+            else if (stat.matches("short"))
+                return this.shortTG;
+            else if (stat.matches("poss won"))
+                return this.posW;
+            else if (stat.matches("poss lost"))
+                return this.posL;
+            else if (stat.matches("free award"))
+                return this.freeAward;
+            else if (stat.matches("free concede"))
+                return this.freeCon;
+            else
+                return 0;
+    }
+
+
 }
