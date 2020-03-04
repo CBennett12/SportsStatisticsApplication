@@ -223,7 +223,7 @@
 
     <LinearLayout
         android:id="@+id/popoutLayout"
-        android:layout_width="66dp"
+        android:layout_width="77dp"
         android:layout_height="182dp"
         android:layout_gravity="bottom|end"
         android:layout_marginEnd="5dp"
@@ -231,6 +231,18 @@
         android:gravity="bottom"
         android:orientation="vertical"
         android:visibility="invisible">
+
+        <Button
+            android:id="@+id/viewButton"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_gravity="bottom|end"
+            android:layout_weight="1"
+            android:background="#E91E63"
+            android:lineSpacingExtra="0sp"
+            android:text="@string/view_data"
+            android:textAlignment="center"
+            android:textColor="#FFFFFF" />
 
         <Button
             android:id="@+id/resetButton"

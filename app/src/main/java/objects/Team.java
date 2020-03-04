@@ -1,11 +1,14 @@
 package objects;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.Log;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 
-public class Team {
+public class Team implements Serializable{
     private String name;
     private ArrayList<Player> Players = new ArrayList<Player>();
     private int goals = 0;
@@ -101,4 +104,6 @@ public void updateScore(String type, int update)
         return Players.get(max).getJerseyNumber();
         else return 0;
     }
+
+
 }

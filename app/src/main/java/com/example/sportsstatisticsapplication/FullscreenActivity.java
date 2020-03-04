@@ -46,6 +46,7 @@ public class FullscreenActivity extends AppCompatActivity {
     private Button helpBtn;
     private Button resetGameBtn;
     private Button undoBtn;
+    private Button viewDataBtn;
     private TextView teamOneTV;
     private TextView teamTwoTV;
     private TextView teamOneScore;
@@ -149,6 +150,7 @@ public class FullscreenActivity extends AppCompatActivity {
         helpBtn = findViewById(R.id.helpButton);
         undoBtn = findViewById(R.id.undoButton);
         resetGameBtn = findViewById(R.id.resetButton);
+        viewDataBtn = findViewById(R.id.viewButton);
         editTextDialog = new AlertDialog.Builder(this).create();
         helpDialog = new AlertDialog.Builder(this).create();
         leftLeadersText = findViewById(R.id.leftTextView);
@@ -189,6 +191,7 @@ public class FullscreenActivity extends AppCompatActivity {
                         popoutLayout.setVisibility(View.VISIBLE);
                         helpBtn.setVisibility(View.VISIBLE);
                         undoBtn.setVisibility(View.VISIBLE);
+                        viewDataBtn.setVisibility(View.VISIBLE);
                         resetGameBtn.setVisibility(View.VISIBLE);
                      }
             }
@@ -251,6 +254,15 @@ public class FullscreenActivity extends AppCompatActivity {
 
             }
         });
+
+        viewDataBtn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                        popoutLayout.setVisibility(View.INVISIBLE);
+                        Intent tableIntent = new Intent(FullscreenActivity.this, tableActivity.class);
+                        tableIntent.putExtra("Teams", game.returnArray());
+                        startActivity(tableIntent);
+                    }
+                });
 
         //minPicker = findViewById(R.id.minutePicker);
         //secPicker = findViewById(R.id.secondPicker);

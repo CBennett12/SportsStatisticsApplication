@@ -1,6 +1,11 @@
 package objects;
 
-public class Player {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
+
+public class Player implements Serializable {
     private int number;
     private int goalFP = 0;
     private int pointFP = 0;
@@ -15,11 +20,17 @@ public class Player {
     private int freeCon = 0;
     private int sixtyFive = 0;
     private int yellowCard = 0;
+    private boolean redCard = false;
 
 
     public Player(String name, int number)
     {
         this.number = number;
+    }
+
+    public Player ()
+    {
+
     }
 
     public Player(int number)
@@ -29,7 +40,7 @@ public class Player {
 
     public void logStat(String stat, int change)
     {
-        boolean redCard = false;
+
         switch (stat)
         {
             case "pointFP":
@@ -115,27 +126,63 @@ public class Player {
 
     public int getStat(String stat)
     {
+            /*
+            int number;
+            int goalFP;
+            int pointFP;
+            int goalFF;
+            int pointFF;
+            int wide;
+            int shortTG;
+            int posW;
+            int passRec
+            int posL;
+            int freeAward;
+            int freeCon;
+            int sixtyFive
+            int yellowCard
+            bool redCard
+             */
 
-
-            if (stat.matches("goal"))
-                return this.goalFP+goalFF;
+                 if (stat.matches("number"))
+                    return this.number;
+            else if (stat.matches("goal"))
+                    return this.goalFP+goalFF;
+            else if (stat.matches("goalff"))
+                    return this.goalFF;
             else if (stat.matches("point"))
-                return this.pointFP+pointFF;
+                    return this.pointFP+pointFF;
+            else if (stat.matches("pointff"))
+                    return this.pointFF;
             else if (stat.matches( "wide"))
-                return this.wide;
+                    return this.wide;
             else if (stat.matches("short"))
-                return this.shortTG;
+                    return this.shortTG;
             else if (stat.matches("poss won"))
-                return this.posW;
+                    return this.posW;
             else if (stat.matches("poss lost"))
-                return this.posL;
+                    return this.posL;
+                 else if (stat.matches("pass"))
+                     return this.passRec;
             else if (stat.matches("free award"))
-                return this.freeAward;
+                    return this.freeAward;
             else if (stat.matches("free concede"))
-                return this.freeCon;
+                    return this.freeCon;
+            else if (stat.matches("65"))
+                    return this.sixtyFive;
+            else if (stat.matches("yellow"))
+                    return this.yellowCard;
+            else if (stat.matches("red"))
+            {
+                if (redCard)
+                {
+                    return 1;
+                }
+                else return 0;
+
+            }
             else
                 return 0;
     }
-
 
 }
