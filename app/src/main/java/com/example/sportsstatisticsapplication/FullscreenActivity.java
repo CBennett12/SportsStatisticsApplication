@@ -364,13 +364,16 @@ public class FullscreenActivity extends AppCompatActivity {
             {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 textParse.ParseText(result.get(0), game.returnArray());
-                if (textParse.getLastStat().toString() != "")
-                {
-                    leftLeadersText.setText("\n"+game.returnTeam(0).toString());
-                    rightLeadersText.setText("\n"+game.returnTeam(1).toString());
-                    Toast toast = Toast.makeText(getApplicationContext(), textParse.getLastStat().toString(), Toast.LENGTH_SHORT);
-                    toast.show();
+                if (textParse.getLastStat().toString() != "") {
+                    leftLeadersText.setText("\n" + game.returnTeam(0).toString());
+                    rightLeadersText.setText("\n" + game.returnTeam(1).toString());
+
+                    Toast.makeText(getApplicationContext(), textParse.getLastStat().toString(), Toast.LENGTH_SHORT).show();
                 }
+                else {
+                    Toast.makeText(getApplicationContext(), "Incorrect input", Toast.LENGTH_SHORT).show();
+                }
+
             }
         }
     }

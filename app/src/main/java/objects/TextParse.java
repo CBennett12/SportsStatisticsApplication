@@ -22,65 +22,61 @@ public class TextParse {
         int i = 0;
         player = 0;
 
-
-        while (i <= (data.length-1)) // while there is still words to parse
-        {
-
-            if (data[i].toLowerCase().matches("left|right|write")) //if the next word is a team
+        if (data.length > 2) {
+            while (i <= (data.length - 1)) // while there is still words to parse
             {
 
-                if (data[i].toLowerCase().matches("left")) //Set the team value to 0 for home or 1 for away
+                if (data[i].toLowerCase().matches("left|right|write")) //if the next word is a team
                 {
-                    team = 0;
-                    lastStat.setTeam(Teams.get(0).getName());
-                }
-                else
-                {
-                    team = 1;
-                    lastStat.setTeam(Teams.get(1).getName());
-                }
-                i++;
-                player = getNumber(data[i]);
-                lastStat.setPlayer(player);
-                if (data[i].matches("(\\d+(pt|PT))")  || data[i].matches("\\d+\\d+(pt|PT)"))
-                {
-                    player = getNumber(data[i].substring(0,1));
-                    lastStat.setPlayer(player);
-                    data[i]=("point");
-                i--;
-                }
-                    if (i < data.length-1)i++;
-                {
-                    if (player != 0)
+
+                    if (data[i].toLowerCase().matches("left")) //Set the team value to 0 for home or 1 for away
                     {
-                        for (int j = 0; j <= (stats.length - 1); j++) //compare next word to each stat
-                        {
-                            if (data[i].toLowerCase().matches(stats[j])) //if a match is found
+                        team = 0;
+                        lastStat.setTeam(Teams.get(0).getName());
+                    } else {
+                        team = 1;
+                        lastStat.setTeam(Teams.get(1).getName());
+                    }
+                    i++;
+                    player = getNumber(data[i]);
+                    lastStat.setPlayer(player);
+                    if (data[i].matches("(\\d+(pt|PT))") || data[i].matches("\\d+\\d+(pt|PT)")) {
+                        player = getNumber(data[i].substring(0, 1));
+                        lastStat.setPlayer(player);
+                        data[i] = ("point");
+                        i--;
+                    }
+                    if (i < data.length - 1) i++;
+                    {
+                        if (player != 0) {
+                            for (int j = 0; j <= (stats.length - 1); j++) //compare next word to each stat
                             {
-                                if (j < 2) //if the stat is a score, check if it is from play or from a free
+                                if (data[i].toLowerCase().matches(stats[j])) //if a match is found
                                 {
-                                    Teams.get(team).updateScore(stats[j], 1);
-                                    if (i != (data.length - 1)) {
-                                        i++;
-                                        if (data[i].toLowerCase().matches("free")) //if it is from a free, increment the stat variable by 2
-                                        {
-                                            j = j + 2;
-                                        } else i--; //if not, it is from play, so revert
+                                    if (j < 2) //if the stat is a score, check if it is from play or from a free
+                                    {
+                                        Teams.get(team).updateScore(stats[j], 1);
+                                        if (i != (data.length - 1)) {
+                                            i++;
+                                            if (data[i].toLowerCase().matches("free")) //if it is from a free, increment the stat variable by 2
+                                            {
+                                                j = j + 2;
+                                            } else i--; //if not, it is from play, so revert
+                                        }
                                     }
-                                }
-                                String currentStat = getStat(j);
-                                if (currentStat != null) {
-                                    Log.d("PARSING", currentStat);
-                                    lastStat.setStat(currentStat);
-                                    Teams.get(team).getPlayer(player).logStat(currentStat, 1);
+                                    String currentStat = getStat(j);
+                                    if (currentStat != null) {
+                                        Log.d("PARSING", currentStat);
+                                        lastStat.setStat(currentStat);
+                                        Teams.get(team).getPlayer(player).logStat(currentStat, 1);
+                                    }
                                 }
                             }
                         }
                     }
-                }
 
+                } else i++;
             }
-            else i++;
         }
     }
 

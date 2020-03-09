@@ -63,7 +63,7 @@ public void updateScore(String type, int update)
 
     public Player getPlayer(int jerseyNumber) {
         for (int i = 0; i < Players.size(); i++) {
-            if (jerseyNumber == (Players.get(i).getJerseyNumber()));
+            if (jerseyNumber == (Players.get(i).getJerseyNumber()))
             return Players.get(i);
         }
         return null;
@@ -95,7 +95,7 @@ public void updateScore(String type, int update)
     private int getMax(String stat)
     {
         int max = 0;
-        for (int i = 1; i < Players.size(); i++)
+        for (int i = 1; i < this.size(); i++)
         {
             if (Players.get(max).getStat(stat) < Players.get(i).getStat(stat))
                 max = i;
@@ -105,5 +105,9 @@ public void updateScore(String type, int update)
         else return 0;
     }
 
+    public int size()
+    {
+        return Players.size();
+    }
 
 }

@@ -41,83 +41,109 @@ public class Player implements Serializable {
     public void logStat(String stat, int change)
     {
 
-        switch (stat)
-        {
-            case "pointFP":
+            if (stat.matches("pointFP"))
             {
                 this.pointFP = pointFP + change;
+                if (this.pointFP < 0)
+                    this.pointFP = 0;
             }
 
-            case "goalFP":
+            else if (stat.matches("goalFP"))
             {
                 this.goalFP = goalFP + change;
+                if (this.goalFP < 0)
+                    this.goalFP = 0;
             }
-            case "pointFF":
+            else if (stat.matches("pointFF"))
             {
                 this.pointFF = pointFF + change;
+                if (this.pointFF < 0)
+                    this.pointFF = 0;
             }
 
-            case "goalFF":
+            else if (stat.matches("goalFF"))
             {
                 this.goalFF = goalFF + change;
+                if (this.pointFF < 0)
+                    this.goalFF = 0;
             }
 
-            case "wide":
+            else if (stat.matches("wide"))
             {
                 this.wide = wide + change;
+                if (this.wide < 0)
+                    this.wide = 0;
             }
-            case "short":
+            else if (stat.matches("short"))
             {
                 this.shortTG = shortTG + change;
+                if (this.shortTG < 0)
+                    this.shortTG = 0;
             }
 
-            case "posW":
+            else if (stat.matches("posW"))
             {
                 this.posW =posW + change;
+                if (this.posW < 0)
+                    this.posW = 0;
             }
 
-            case "pass":
+            else if (stat.matches("pass"))
             {
                 this.passRec = passRec + change;
+                if (this.passRec < 0)
+                    this.passRec = 0;
             }
 
-            case "posL":
+            else if (stat.matches("posL"))
             {
                 this.posL= posL + change;
+                if (this.posL < 0)
+                    this.posL = 0;
             }
 
-            case "freeAward":
+            else if (stat.matches("freeAward"))
             {
                 this.freeAward = freeAward + change;
+                if (this.freeAward < 0)
+                    this.freeAward = 0;
             }
 
-            case "freeCon":
+            else if (stat.matches("freeCon"))
             {
                 this.freeCon = freeCon + change;
+                if (this.freeCon < 0)
+                    this.freeCon = 0;
             }
 
-            case "65":
+            else if (stat.matches("65"))
             {
                 this.sixtyFive = sixtyFive + change;
+                if (this.sixtyFive < 0)
+                    this.sixtyFive = 0;
             }
 
-            case "yellow":
+            else if (stat.matches("yellow"))
             {
                 this.yellowCard = yellowCard + change;
                 redCard = this.yellowCard == 2;
+                if (this.yellowCard < 0)
+                    this.yellowCard = 0;
+
+                if (this.yellowCard >2)
+                    this.yellowCard = 2;
 
             }
 
-            case "red":
+            else if (stat.matches("red"))
             {
                  {
                     redCard = change == 1;
-                }
+                 }
             }
 
-        }
-
     }
+
 
     public int getJerseyNumber()
     {

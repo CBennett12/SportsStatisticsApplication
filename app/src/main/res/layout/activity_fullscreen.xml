@@ -155,9 +155,9 @@
                 android:id="@+id/leftTextView"
                 android:layout_width="134dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|start"
+                android:layout_gravity="center"
                 android:lineSpacingExtra="8sp"
-                android:textAlignment="center"
+                android:textAlignment="textEnd"
                 android:textColor="#FFFFFF"
                 android:textSize="25sp" />
 
@@ -177,10 +177,10 @@
                 android:id="@+id/rightTextView"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_gravity="center|end"
+                android:layout_gravity="end"
                 android:layout_weight="1"
                 android:lineSpacingExtra="8sp"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 android:textColor="#FFFFFF"
                 android:textSize="25sp" />
         </LinearLayout>
@@ -236,7 +236,7 @@
             android:id="@+id/viewButton"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_gravity="bottom|end"
+            android:layout_gravity="center_horizontal"
             android:layout_weight="1"
             android:background="#E91E63"
             android:lineSpacingExtra="0sp"
