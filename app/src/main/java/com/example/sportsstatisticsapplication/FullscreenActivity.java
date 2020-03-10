@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
+import java.util.Locale;
 
 import objects.Game;
 import objects.TextParse;
@@ -341,8 +342,8 @@ public class FullscreenActivity extends AppCompatActivity {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
-        //intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault()); //Locale.getDefault()
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, "en-IE");
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_PREFERENCE, Locale.getDefault()); //Locale.getDefault()
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, "en-IE");
         intent.putExtra(RecognizerIntent.EXTRA_PROMPT,getString(R.string.speech_prompt));
 
         if (intent.resolveActivity(getPackageManager()) != null) {

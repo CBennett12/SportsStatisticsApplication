@@ -11,12 +11,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 
@@ -50,6 +49,10 @@ public class tableActivity extends AppCompatActivity {
     private View mContentView;
     private int currentTab = 0;
     private ArrayList<Team> Teams;
+    private Switch teamSwitch;
+    private TextView teamOneTextView;
+    private TextView teamTwoTextView;
+    private TableLayout tableLayout;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
         @Override
@@ -105,13 +108,17 @@ public class tableActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_table);
-        TableLayout tableLayout = findViewById(R.id.dataTable);
+        tableLayout = findViewById(R.id.dataTable);
+        teamSwitch = findViewById(R.id.teamSwitch);
+        teamOneTextView = findViewById(R.id.teamOneTextView);
+        teamTwoTextView = findViewById(R.id.teamTwoTextView);
         tableLayout.removeAllViews();
         Intent extras = getIntent();
         if (extras!= null) {
             Teams = (ArrayList<Team>) extras.getSerializableExtra("Teams");
         }
-
+        teamOneTextView.setText(Teams.get(0).getName());
+        teamTwoTextView.setText(Teams.get(1).getName());
         mVisible = false;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
@@ -128,8 +135,21 @@ public class tableActivity extends AppCompatActivity {
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
 
+        fillTable();
 
-        fillTable(tableLayout);
+        teamSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked)
+                {
+                    currentTab = 1;
+                }
+                else
+                {
+                    currentTab = 0;
+                }
+                fillTable();
+            }
+        });
     }
 
     @Override
@@ -149,7 +169,6 @@ public class tableActivity extends AppCompatActivity {
             show();
         }
     }*/
-
 
     private void hide() {
         // Hide UI first
@@ -186,9 +205,9 @@ public class tableActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    private void fillTable(TableLayout tableLayout)
+    private void fillTable()
     {
-
+        tableLayout.removeAllViews();
         int fromFree = 0;
         TableRow hRow=new TableRow(this);
         TextView hGoal = new TextView(this);

@@ -38,31 +38,53 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="715dp"
+        android:layout_height="match_parent"
         android:layout_gravity="center|start|top"
         android:layout_marginBottom="50dp"
         android:orientation="vertical">
 
-        <com.google.android.material.tabs.TabLayout
+        <LinearLayout
+            android:id="@+id/switchLayout"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            app:tabRippleColor="#E62020"
-            app:tabSelectedTextColor="#D81B60"
-            app:tabTextColor="#FFFFFF">
+            android:layout_gravity="center|center_horizontal"
+            android:orientation="horizontal">
 
-            <com.google.android.material.tabs.TabItem
+            <TextView
+                android:id="@+id/teamOneTextView"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|end"
                 android:text="@string/team_1"
-                android:textAlignment="center" />
+                android:textAlignment="viewEnd"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
 
-            <com.google.android.material.tabs.TabItem
+            <Switch
+                android:id="@+id/teamSwitch"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="@string/team_2"
-                android:textAlignment="center" />
+                android:layout_gravity="center|center_horizontal"
+                android:gravity="center"
+                android:textAlignment="center"
+                android:textColor="#FFFFFF"
+                android:textColorLink="#FFFFFF"
+                android:textSize="16sp" />
 
-        </com.google.android.material.tabs.TabLayout>
+            <TextView
+                android:id="@+id/teamTwoTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:layout_weight="1"
+                android:gravity="center|start"
+                android:maxLines="1"
+                android:text="@string/team_2"
+                android:textAlignment="viewStart"
+                android:textColor="#FFFFFF"
+                android:textSize="16sp" />
+        </LinearLayout>
 
         <HorizontalScrollView
             android:layout_width="match_parent"
