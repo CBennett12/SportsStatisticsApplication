@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.SystemClock;
 import android.speech.RecognizerIntent;
+import android.view.KeyEvent;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.WindowManager;
@@ -52,8 +53,11 @@ public class FullscreenActivity extends AppCompatActivity {
     private TextView teamTwoTV;
     private TextView teamOneScore;
     private TextView teamTwoScore;
-    private TextView leftLeadersText;
-    private TextView rightLeadersText;
+    private TextView textViewOne;
+    private TextView textViewTwo;
+    private TextView textViewThree;
+    private TextView textViewFour;
+    private TextView textViewFive;
     private AlertDialog editTextDialog;
     private AlertDialog helpDialog;
     private EditText editText;
@@ -152,10 +156,14 @@ public class FullscreenActivity extends AppCompatActivity {
         undoBtn = findViewById(R.id.undoButton);
         resetGameBtn = findViewById(R.id.resetButton);
         viewDataBtn = findViewById(R.id.viewButton);
+        textViewOne = findViewById(R.id.TextView1);
+        textViewTwo = findViewById(R.id.TextView2);
+        textViewThree = findViewById(R.id.TextView3);
+        textViewFour = findViewById(R.id.TextView4);
+        textViewFive = findViewById(R.id.TextView5);
+
         editTextDialog = new AlertDialog.Builder(this).create();
         helpDialog = new AlertDialog.Builder(this).create();
-        leftLeadersText = findViewById(R.id.leftTextView);
-        rightLeadersText = findViewById(R.id.rightTextView);
 
         editText = new EditText(this);
         String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()};
@@ -227,6 +235,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
                 popoutLayout.setVisibility(View.INVISIBLE);
                 textParse.undoStat(game.returnArray());
+                undoStatTexts();
                 Toast toast=Toast. makeText(getApplicationContext(),"Last stat undone",Toast.LENGTH_SHORT);
                 toast.show();
             }
@@ -242,7 +251,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 stopBtn.setVisibility(View.GONE);
                 startBtn.setVisibility(View.VISIBLE);
                 chronometer.stop();
-
+                resetStatTexts();
                 for (int i = 0; i< 2; i++)
                 {
                     game.returnTeam(i).clear();
@@ -250,8 +259,6 @@ public class FullscreenActivity extends AppCompatActivity {
 
                 teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
                 teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
-                leftLeadersText.setText("");
-                rightLeadersText.setText("");
 
             }
         });
@@ -283,6 +290,14 @@ public class FullscreenActivity extends AppCompatActivity {
         // while interacting with the UI.
 
 
+    }
+
+    private void resetStatTexts() {
+        textViewOne.setText("");
+        textViewTwo.setText("");
+        textViewThree.setText("");
+        textViewFour.setText("");
+        textViewFive.setText("");
     }
 
     @Override
@@ -365,11 +380,8 @@ public class FullscreenActivity extends AppCompatActivity {
             {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 textParse.ParseText(result.get(0), game.returnArray());
-                if (textParse.getLastStat().toString() != "") {
-                    leftLeadersText.setText("\n" + game.returnTeam(0).toString());
-                    rightLeadersText.setText("\n" + game.returnTeam(1).toString());
-
-                    Toast.makeText(getApplicationContext(), textParse.getLastStat().toString(), Toast.LENGTH_SHORT).show();
+                if (textParse.isNewStat()) {
+                    setStatTexts(textParse.getLastStat().toString());
                 }
                 else {
                     Toast.makeText(getApplicationContext(), "Incorrect input", Toast.LENGTH_SHORT).show();
@@ -377,6 +389,23 @@ public class FullscreenActivity extends AppCompatActivity {
 
             }
         }
+    }
+
+    private void setStatTexts(String newestStat) {
+        textViewFive.setText(textViewFour.getText());
+        textViewFour.setText(textViewThree.getText());
+        textViewThree.setText(textViewTwo.getText());
+        textViewTwo.setText(textViewOne.getText());
+        textViewOne.setText(newestStat);
+    }
+
+    private void undoStatTexts()
+    {
+        textViewOne.setText(textViewTwo.getText());
+        textViewTwo.setText(textViewThree.getText());
+        textViewThree.setText(textViewFour.getText());
+        textViewFour.setText(textViewFive.getText());
+        textViewFive.setText("");
     }
 
 
@@ -424,5 +453,13 @@ public class FullscreenActivity extends AppCompatActivity {
         changeText();
     }
 
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK){
+            getSpeechInput(new View(this));
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
+    }
 
 }

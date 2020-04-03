@@ -10,11 +10,11 @@ import java.util.Collections;
 
 public class Team implements Serializable{
     private String name;
-    private ArrayList<Player> Players = new ArrayList<Player>();
+    private ArrayList<Player> Players = new ArrayList<>();
     private int goals = 0;
     private int points = 0;
 
-public Team(String name, int teamSize)
+private Team(String name, int teamSize)
 {
     this.name = name;
     for (int i = 1; i<=teamSize; i++)
@@ -28,22 +28,18 @@ public void changeName(String name)
         this.name = name;
     }
 
-public void updateScore(String type, int update)
+void updateScore(String type, int update) {
+    String[] temp = type.split("o");
+    type = temp[0];
+    Log.d("PARSING", type);
+    if (type.matches("g"))
     {
-        switch (type)
-        {
-            case "goal":
-            {
-                goals = goals + update;
-                update = 0;
-            }
-            case "point":
-            {
-                points = points + update;
-                update = 0;
-            }
-        }
+        goals = goals + update;
+        } else if (type.matches("p")){
+        points = points + update;
     }
+}
+
 
     public int getGoals()
     {
@@ -82,12 +78,12 @@ public void updateScore(String type, int update)
     public String toString() {
         String[] stats = {"goal", "point", "wide", "short", "poss won", "poss lost", "free award", "free concede"};
         String output = "";
-        int temp = 0;
+        int temp;
         for (String stat : stats)
         {
             temp = getMax(stat);
-            if (temp != 0) output += (temp + "\n");
-            else output += ("\n");
+            if (temp != 0) output = output.concat(temp + "\n");
+            else output = output.concat("\n");
         }
         return output;
     }

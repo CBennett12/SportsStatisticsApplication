@@ -13,7 +13,7 @@
     <string name="default_score" translatable="false">0–00</string>
     <string name="help">HELP</string>
     <string name="close">close</string>
-    <string name="centreText">Leaders:\nGoals\nPoints\nWides\nShort\nPoss. Won\nPoss. Lost\nFouls A.\nFouls C.</string>
+    <string name="TopText">Recent Stats:</string>
     <string name="message">"To use this app, you need to say three commands to log a stat.\n First, you say either \"left\" or \"right\" to denote the team on the left or right, then you say the player number, then you say the keyword for the stat in the glossary below:\n
         goal from play\t- goal\n
         point from play\t- point\n
@@ -23,15 +23,15 @@
         ball short to goalkeeper\t- short\n
         possession won\t- turnover\n
         pass completed\t- pass\n
-        possession lost\t- loses\n
+        possession lost\t- loss\n
         foul awarded\t- award\n
         foul committed\t- concede\n
-        65 won\t- sixty\n
+        65 won\t- behind\n
         yellow card awarded\t- yellow\n
         straight red card awarded\t- red.\n
         For example,\n 'left 11 point'\n will log a point to the number 11 on the team on the left hand side of the screen.
         "</string>
-    <string name="speech_prompt">Speak Stat...</string>
+    <string name="speech_prompt">Speak Stat…</string>
 
     <string name="title_activity_table">tableActivity</string>
     <string name="dummy_button">Dummy Button</string>

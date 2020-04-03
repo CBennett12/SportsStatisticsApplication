@@ -7,11 +7,13 @@ import java.util.ArrayList;
 
 
 public class TextParse {
-    private String[] numbers = {"one", "two", "three", "four", "five", "six", "seven", "eight", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
-    private String[] stats = {"goal", "point", "", "", "wide", "short", "turnover", "pass", "loses", "award", "concede", "sixty", "yellow", "red"};
+    private String[] numbers = {"one", "two|to|too", "three|tree", "four|for", "five|v", "six", "seven", "eight|it|ate", "nine", "ten", "eleven", "twelve", "thirteen", "fourteen", "fifteen", "sixteen", "seventeen", "eighteen", "nineteen", "twenty"};
+    private String[] stats = {"goal|gold", "point|pint", "", "", "wide", "short", "turnover", "pass|past", "loss|lost", "award", "concede", "behind", "yellow", "red"};
     private int player;
     private Stat lastStat = new Stat();
     private int team;
+    private String currentStat;
+    private boolean newStat;
 
     public TextParse(){}
 
@@ -21,15 +23,16 @@ public class TextParse {
         String[] data = text.split(" ");
         int i = 0;
         player = 0;
-
-        if (data.length > 2) {
-            while (i <= (data.length - 1)) // while there is still words to parse
+        currentStat = "";
+        newStat=false;
+        if (data.length > 1) {
+            while (i < (data.length)) // while there is still words to parse
             {
 
-                if (data[i].toLowerCase().matches("left|right|write")) //if the next word is a team
+                if (data[i].toLowerCase().matches("left|lift|list|let's|right|write|rice")) //if the next word is a team
                 {
 
-                    if (data[i].toLowerCase().matches("left")) //Set the team value to 0 for home or 1 for away
+                    if (data[i].toLowerCase().matches("left|lift|list|let's")) //Set the team value to 0 for home or 1 for away
                     {
                         team = 0;
                         lastStat.setTeam(Teams.get(0).getName());
@@ -40,11 +43,25 @@ public class TextParse {
                     i++;
                     player = getNumber(data[i]);
                     lastStat.setPlayer(player);
-                    if (data[i].matches("(\\d+(pt|PT))") || data[i].matches("\\d+\\d+(pt|PT)")) {
-                        player = getNumber(data[i].substring(0, 1));
+                    if (data[i].length() >= 3  && data[i].substring(data[i].length()-2).toLowerCase().matches("pt")) {
+                        if (data[i].length() == 3) {
+                            player = getNumber(data[i].substring(0, 1));
+                        }
+                        else player = getNumber(data[i].substring(0,2));
                         lastStat.setPlayer(player);
                         data[i] = ("point");
                         i--;
+                    }
+                    else if  (data[i].length() >= 3 && data[i].substring(data[i].length()-2).matches(".3"))
+                    {
+                        if (data[i].length() == 3) {
+                            player = getNumber(data[i].substring(0, 1));
+                        }
+                        else player = getNumber(data[i].substring(0,2));
+                        lastStat.setPlayer(player);
+                        data[i-1] = ("point");
+                        data[i] = ("free");
+                        i= i-2;
                     }
                     if (i < data.length - 1) i++;
                     {
@@ -58,18 +75,20 @@ public class TextParse {
                                         Teams.get(team).updateScore(stats[j], 1);
                                         if (i != (data.length - 1)) {
                                             i++;
-                                            if (data[i].toLowerCase().matches("free")) //if it is from a free, increment the stat variable by 2
+                                            if (data[i].toLowerCase().matches("free|placed|playlist")) //if it is from a free, increment the stat variable by 2
                                             {
                                                 j = j + 2;
                                             } else i--; //if not, it is from play, so revert
                                         }
                                     }
-                                    String currentStat = getStat(j);
-                                    if (currentStat != null) {
+                                    currentStat = getStat(j);
+                                    if (!(currentStat.matches(""))) {
                                         Log.d("PARSING", currentStat);
                                         lastStat.setStat(currentStat);
+                                        newStat=true;
                                         Teams.get(team).getPlayer(player).logStat(currentStat, 1);
                                     }
+                                    else newStat=false;
                                 }
                             }
                         }
@@ -135,7 +154,7 @@ public class TextParse {
             }
             case 10:
             {
-                lastStat.setOutput("lost a free");
+                lastStat.setOutput("gave away a free");
                 return ("freeCon");
             }
             case 11:
@@ -184,11 +203,15 @@ public class TextParse {
             if (lastStat.getStat().matches("goalFP|pointFP|goalFF|pointFF")) {
                 if (lastStat.getStat().matches("goalFP|goalFF")) {
                     Teams.get(team).updateScore("goal", -1);
-                } else {
+                } else if (lastStat.getStat().matches("pointFP|pointFF")){
                     Teams.get(team).updateScore("point", -1);
                 }
             }
         }
     }
 
+    public boolean isNewStat()
+    {
+        return newStat;
+    }
 }
