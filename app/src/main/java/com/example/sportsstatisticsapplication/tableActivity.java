@@ -19,6 +19,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 
+import objects.Player;
 import objects.Team;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
@@ -376,5 +377,38 @@ public class tableActivity extends AppCompatActivity {
 
             tableLayout.addView(row);
         }
+    }
+
+    public void sendEmail(View view) {
+
+        String output = "Player,Goals,Goals From Placed Balls,Points,Points From Placed Balls,Wides,Possessions Won,Possessions Lost,Passes Completed,Frees Won,Frees Conceded,65s Won,Yellow Cards,Red Cards\n";
+        for (int i = 0; i < Teams.size(); i++)
+        {
+            for (int j = 1; j <= Teams.get(0).size(); j++)
+            {
+                output += Teams.get(i).getName() + " " + Teams.get(i).getPlayer(j).getJerseyNumber() + ",";
+                output += Teams.get(i).getPlayer(j).getStat("goal") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("goalff") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("point") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("pointff") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("wide") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("poss won") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("poss lost") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("pass") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("free award") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("free concede") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("65") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("yellow") + ",";
+                output += Teams.get(i).getPlayer(j).getStat("red") + "\n";
+            }
+        }
+        output+=("\n\n\n To add stats to an excel sheet, save above data to a \".txt\" file and see https://support.office.com/en-ie/article/import-or-export-text-txt-or-csv-files-5250ac4c-663c-47ce-937b-339e391393ba");
+
+
+        Intent intent = new Intent(Intent.ACTION_SEND);
+        intent.putExtra(Intent.EXTRA_TEXT, output);
+        intent.putExtra(Intent.EXTRA_SUBJECT, (Teams.get(0).getName()+" vs "+Teams.get(1).getName()+" stats"));
+        intent.setType("message/rfc822");
+        startActivity(Intent.createChooser(intent, "Send via:"));
     }
 }

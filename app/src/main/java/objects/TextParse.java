@@ -14,6 +14,8 @@ public class TextParse {
     private int team;
     private String currentStat;
     private boolean newStat;
+    private String teamOne;
+    private String teamTwo;
 
     public TextParse(){}
 
@@ -25,20 +27,22 @@ public class TextParse {
         player = 0;
         currentStat = "";
         newStat=false;
+        teamOne = Teams.get(0).getName();
+        teamTwo = Teams.get(1).getName();
         if (data.length > 1) {
             while (i < (data.length)) // while there is still words to parse
             {
 
-                if (data[i].toLowerCase().matches("left|lift|list|let's|right|write|rice")) //if the next word is a team
+                if (data[i].toLowerCase().matches("left|lift|list|let's|right|write|rice") || data[i].toLowerCase().matches(teamOne.toLowerCase()) || data[i].toLowerCase().matches(teamTwo.toLowerCase())) //if the next word is a team
                 {
 
-                    if (data[i].toLowerCase().matches("left|lift|list|let's")) //Set the team value to 0 for home or 1 for away
+                    if (data[i].toLowerCase().matches("left|lift|list|let's") || data[i].toLowerCase().matches(teamOne.toLowerCase())) //Set the team value to 0 for home or 1 for away
                     {
                         team = 0;
-                        lastStat.setTeam(Teams.get(0).getName());
-                    } else {
+                        lastStat.setTeam(teamOne);
+                    } else if (data[i].toLowerCase().matches("right|write|rice") || data[i].toLowerCase().matches(teamTwo.toLowerCase())){
                         team = 1;
-                        lastStat.setTeam(Teams.get(1).getName());
+                        lastStat.setTeam(teamTwo);
                     }
                     i++;
                     player = getNumber(data[i]);

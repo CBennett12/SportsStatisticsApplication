@@ -14,7 +14,7 @@ public class Team implements Serializable{
     private int goals = 0;
     private int points = 0;
 
-private Team(String name, int teamSize)
+public Team(String name, int teamSize)
 {
     this.name = name;
     for (int i = 1; i<=teamSize; i++)

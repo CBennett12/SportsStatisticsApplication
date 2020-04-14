@@ -103,6 +103,15 @@
             </ScrollView>
         </HorizontalScrollView>
 
+        <Button
+            android:id="@+id/button"
+            style="@android:style/Widget.Button"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:onClick="sendEmail"
+            android:text="@string/send" />
+
     </LinearLayout>
 
 </FrameLayout>
