@@ -22,25 +22,16 @@ public class Player implements Serializable {
     private int yellowCard = 0;
     private boolean redCard = false;
 
-
+    public Player() {}
     public Player(String name, int number)
     {
         this.number = number;
     }
-
-    public Player ()
-    {
-
-    }
-
-    public Player(int number)
-    {
-        this.number = number;
-    }
+    public Player(int number) {this.number = number;}
 
     public void logStat(String stat, int change)
     {
-
+            //check value of stat, and add the change value to it
             if (stat.matches("pointFP"))
             {
                 this.pointFP = pointFP + change;
@@ -126,11 +117,11 @@ public class Player implements Serializable {
             else if (stat.matches("yellow"))
             {
                 this.yellowCard = yellowCard + change;
-                redCard = this.yellowCard == 2;
+                redCard = this.yellowCard == 2; //change red card to true if the player gets their second yellow card
                 if (this.yellowCard < 0)
                     this.yellowCard = 0;
 
-                if (this.yellowCard >2)
+                if (this.yellowCard >2) //yellow card count should not exceed two, if only Graham Poll remembered this in 2006 https://www.themorningbulletin.com.au/news/great-socceroos-moments-in-world-cup-history-graha/3441537/
                     this.yellowCard = 2;
 
             }
@@ -152,24 +143,7 @@ public class Player implements Serializable {
 
     public int getStat(String stat)
     {
-            /*
-            int number;
-            int goalFP;
-            int pointFP;
-            int goalFF;
-            int pointFF;
-            int wide;
-            int shortTG;
-            int posW;
-            int passRec
-            int posL;
-            int freeAward;
-            int freeCon;
-            int sixtyFive
-            int yellowCard
-            bool redCard
-             */
-
+            //used for the tableActivity
                  if (stat.matches("number"))
                     return this.number;
             else if (stat.matches("goal"))

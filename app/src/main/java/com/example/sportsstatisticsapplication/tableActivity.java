@@ -115,6 +115,7 @@ public class tableActivity extends AppCompatActivity {
         teamTwoTextView = findViewById(R.id.teamTwoTextView);
         tableLayout.removeAllViews();
         Intent extras = getIntent();
+        //import Team objects
         if (extras!= null) {
             Teams = (ArrayList<Team>) extras.getSerializableExtra("Teams");
         }
@@ -137,7 +138,7 @@ public class tableActivity extends AppCompatActivity {
         // while interacting with the UI.
 
         fillTable();
-
+        //check value of switcher, and set team accordingly
         teamSwitch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked)
@@ -148,6 +149,7 @@ public class tableActivity extends AppCompatActivity {
                 {
                     currentTab = 0;
                 }
+                //call fillTable function
                 fillTable();
             }
         });
@@ -205,7 +207,7 @@ public class tableActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
-
+    //function for filling the table, goes row by row for each player
     private void fillTable()
     {
         tableLayout.removeAllViews();
@@ -244,24 +246,11 @@ public class tableActivity extends AppCompatActivity {
         hFreeAg.setText("Fouls Conceded\t");
         hPossW.setText("Possession Won\t");
         hPossL.setText("Possession Lost\t");
-        hPass.setText("Passes Received\t");
+        hPass.setText("Passes Completed\t");
         hSixtyFive.setText("Sixty Fives Won\t");
         hYellow.setText("Yellow Cards\t");
         hRed.setText("Red Cards\t");
 
-        /*row.addView(number);
-            row.addView(goal);
-            row.addView(point);
-            row.addView(wide);
-            row.addView(possW);
-            row.addView(possL);
-            row.addView(pass);
-            row.addView(freeFor);
-            row.addView(freeAg);
-            row.addView(sixtyFive);
-            row.addView(yellow);
-            row.addView(red);
-*/
 
         hRow.addView(hNumber);
         hRow.addView(hGoal);
@@ -276,12 +265,8 @@ public class tableActivity extends AppCompatActivity {
         hRow.addView(hYellow);
         hRow.addView(hRed);
 
-
-
         tableLayout.addView(hRow);
-
-
-
+        //add each player
         for(int i=1;i<=Teams.get(currentTab).size();i++)
         {
             TableRow row=new TableRow(this);
@@ -321,7 +306,7 @@ public class tableActivity extends AppCompatActivity {
             TextView red=new TextView(this);
             red.setTextAlignment(TEXT_ALIGNMENT_CENTER);
             red.setTextColor(Color.WHITE);
-
+            //remove all current rows in table
             row.removeAllViews();
             fromFree = 0;
             number.setText("\t"+Teams.get(currentTab).getPlayer(i).getJerseyNumber()+"");
@@ -329,6 +314,7 @@ public class tableActivity extends AppCompatActivity {
             number.setTextColor(Color.WHITE);
 
             goal.setText("\t"+Teams.get(currentTab).getPlayer(i).getStat("goal")+"");
+            //check if player has any goals from a placed ball
             fromFree = Teams.get(currentTab).getPlayer(i).getStat("goalff");
             if (fromFree > 0)
             {
@@ -373,12 +359,10 @@ public class tableActivity extends AppCompatActivity {
             row.addView(yellow);
             row.addView(red);
 
-
-
             tableLayout.addView(row);
         }
     }
-
+    //add the value from the table into one text object and transfer it to the email client of the user's preference
     public void sendEmail(View view) {
 
         String output = "Player,Goals,Goals From Placed Balls,Points,Points From Placed Balls,Wides,Possessions Won,Possessions Lost,Passes Completed,Frees Won,Frees Conceded,65s Won,Yellow Cards,Red Cards\n";
@@ -406,9 +390,9 @@ public class tableActivity extends AppCompatActivity {
 
 
         Intent intent = new Intent(Intent.ACTION_SEND);
-        intent.putExtra(Intent.EXTRA_TEXT, output);
-        intent.putExtra(Intent.EXTRA_SUBJECT, (Teams.get(0).getName()+" vs "+Teams.get(1).getName()+" stats"));
-        intent.setType("message/rfc822");
+        intent.putExtra(Intent.EXTRA_TEXT, output); //add the data tp the email
+        intent.putExtra(Intent.EXTRA_SUBJECT, (Teams.get(0).getName()+" vs "+Teams.get(1).getName()+" stats")); //Add a subject "(Team One) vs (Team Two) stats"
+        intent.setType("message/rfc822"); //Show every email client
         startActivity(Intent.createChooser(intent, "Send via:"));
     }
 }

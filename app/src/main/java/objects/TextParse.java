@@ -21,14 +21,16 @@ public class TextParse {
 
     public void ParseText(String text, ArrayList<Team> Teams)
     {
-        Log.d("PARSING", text);
+        //Split the input into an array at each space
         String[] data = text.split(" ");
+        //reset values
         int i = 0;
         player = 0;
         currentStat = "";
         newStat=false;
         teamOne = Teams.get(0).getName();
         teamTwo = Teams.get(1).getName();
+        //if there is a value, parse it
         if (data.length > 1) {
             while (i < (data.length)) // while there is still words to parse
             {
@@ -47,6 +49,7 @@ public class TextParse {
                     i++;
                     player = getNumber(data[i]);
                     lastStat.setPlayer(player);
+                    //check if it has returned ([number]pt)
                     if (data[i].length() >= 3  && data[i].substring(data[i].length()-2).toLowerCase().matches("pt")) {
                         if (data[i].length() == 3) {
                             player = getNumber(data[i].substring(0, 1));
@@ -56,6 +59,7 @@ public class TextParse {
                         data[i] = ("point");
                         i--;
                     }
+                    //check if it has returned ([number].3)
                     else if  (data[i].length() >= 3 && data[i].substring(data[i].length()-2).matches(".3"))
                     {
                         if (data[i].length() == 3) {
@@ -67,8 +71,10 @@ public class TextParse {
                         data[i] = ("free");
                         i= i-2;
                     }
+                    //check if there is a value after the number
                     if (i < data.length - 1) i++;
                     {
+                        //If a number has been found
                         if (player != 0) {
                             for (int j = 0; j <= (stats.length - 1); j++) //compare next word to each stat
                             {
@@ -76,7 +82,7 @@ public class TextParse {
                                 {
                                     if (j < 2) //if the stat is a score, check if it is from play or from a free
                                     {
-                                        Teams.get(team).updateScore(stats[j], 1);
+                                        Teams.get(team).updateScore(stats[j], 1);//It is a score, update the team score
                                         if (i != (data.length - 1)) {
                                             i++;
                                             if (data[i].toLowerCase().matches("free|placed|playlist")) //if it is from a free, increment the stat variable by 2
@@ -86,92 +92,92 @@ public class TextParse {
                                         }
                                     }
                                     currentStat = getStat(j);
-                                    if (!(currentStat.matches(""))) {
-                                        Log.d("PARSING", currentStat);
-                                        lastStat.setStat(currentStat);
-                                        newStat=true;
-                                        Teams.get(team).getPlayer(player).logStat(currentStat, 1);
+                                    if (!(currentStat.matches(""))) { //if you have found a stat
+                                        lastStat.setStat(currentStat); //update value for undo function
+                                        newStat=true; //allow a stat to be added
+                                        Teams.get(team).getPlayer(player).logStat(currentStat, 1); //add the stat to the player
                                     }
-                                    else newStat=false;
+                                    else newStat=false; //no stat found
                                 }
                             }
                         }
                     }
 
-                } else i++;
+                } else i++; //word doesn't match a team
             }
         }
     }
 
+    //a match has been found with the array of stats
     private String getStat(int j) {
         switch (j)
         {
-            case 0:
+            case 0: //goal from play
             {
                 lastStat.setOutput("scored a goal from play");
                 return ("goalFP");
             }
-            case 1:
+            case 1: //point from play
             {
                 lastStat.setOutput("scored a point from play");
                 return ("pointFP");
             }
-            case 2:
+            case 2: //goal from a free
             {
                 lastStat.setOutput("scored a goal from a placed ball");
                 return ("goalFF");
             }
-            case 3:
+            case 3: //point from a free
             {
                 lastStat.setOutput("scored a point from a placed ball");
                 return ("pointFF");
             }
-            case 4:
+            case 4: //wide
             {
                 lastStat.setOutput("hit the ball wide");
                 return ("wide");
             }
-            case 5:
+            case 5: //short to goalkeeper
             {
                 lastStat.setOutput("hit the ball short to the goalkeeper");
                 return ("short");
             }
-            case 6:
+            case 6: //possession won
             {
                 lastStat.setOutput("won possession");
                 return ("posW");
             }
-            case 7:
+            case 7: //pass completed
             {
                 lastStat.setOutput("passed the ball");
                 return ("pass");
             }
-            case 8:
+            case 8: //possession lost
             {
                 lastStat.setOutput("lost possession");
                 return ("posL");
             }
-            case 9:
+            case 9: //won a free
             {
                 lastStat.setOutput("won a free");
                 return ("freeAward");
             }
-            case 10:
+            case 10: //gave away a free
             {
                 lastStat.setOutput("gave away a free");
                 return ("freeCon");
             }
-            case 11:
+            case 11: //won a 65
             {
                 lastStat.setOutput("Won a 65");
                 return ("65");
             }
-            case 12:
+            case 12: //yellow card
             {
                 lastStat.setOutput("received a yellow card");
                 return ("yellow");
             }
-            case 13:
+            case 13: //red card
             {
                 lastStat.setOutput("received a red card");
                 return ("red");
@@ -186,13 +192,14 @@ public class TextParse {
         return lastStat;
     }
 
+    //get number value
     private int getNumber(String temp)
     {
-        if (temp.matches("\\d|\\d+\\d"))
+        if (temp.matches("\\d|\\d+\\d")) //if temp matches a digit (8)
             return Integer.parseInt(temp);
         else for (int k = 0; k < numbers.length; k++)
         {
-            if (temp.toLowerCase().matches(numbers[k]))
+            if (temp.toLowerCase().matches(numbers[k])) //if temp matches the typed number value (eight)
                 return k+1;
         }
 
@@ -203,12 +210,12 @@ public class TextParse {
     {
         if (lastStat.getStat()!=null)
         {
-            Teams.get(team).getPlayer(player).logStat(lastStat.getStat(), -1);
+            Teams.get(team).getPlayer(player).logStat(lastStat.getStat(), -1); //undo last statistic in the player object
             if (lastStat.getStat().matches("goalFP|pointFP|goalFF|pointFF")) {
                 if (lastStat.getStat().matches("goalFP|goalFF")) {
-                    Teams.get(team).updateScore("goal", -1);
+                    Teams.get(team).updateScore("goal", -1); //remove a goal if that is the stat to be undone
                 } else if (lastStat.getStat().matches("pointFP|pointFF")){
-                    Teams.get(team).updateScore("point", -1);
+                    Teams.get(team).updateScore("point", -1); //remove a point if that is the stat to be undone
                 }
             }
         }
@@ -217,5 +224,5 @@ public class TextParse {
     public boolean isNewStat()
     {
         return newStat;
-    }
+    } //Check if a stat has just been logged
 }

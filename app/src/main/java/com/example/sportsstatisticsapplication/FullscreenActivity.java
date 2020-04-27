@@ -141,7 +141,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mVisible = false;
         mControlsView = findViewById(R.id.fullscreen_content_controls);
         mContentView = findViewById(R.id.fullscreen_content);
-
+        //import all items from the layout file
         chronometer = findViewById(R.id.chronometer);
         startBtn = findViewById(R.id.startBtn);
         stopBtn = findViewById(R.id.stopBtn);
@@ -166,18 +166,20 @@ public class FullscreenActivity extends AppCompatActivity {
         helpDialog = new AlertDialog.Builder(this).create();
 
         editText = new EditText(this);
-        String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()};
+        String[] teamNames = {teamOneTV.getText().toString(), teamTwoTV.getText().toString()}; //get current team name values and set the Team object names
         game = new Game(teamNames, 24);
 
         chronometer.setOnChronometerTickListener(new Chronometer.OnChronometerTickListener()
         { //Listener for every tick of the stopwatch
             public void onChronometerTick(Chronometer chronometer)
                 {
+                    //on every chronometer tick, the scores will update
                     teamOneScore.setText(game.returnTeam(0).getGoals() + "-" + String.format("%02d",game.returnTeam(0).getPoints()));
                     teamTwoScore.setText(game.returnTeam(1).getGoals() + "-" + String.format("%02d",game.returnTeam(1).getPoints()));
 
                 }
         }                                       );
+        //create the dialog for changing team names
         editTextDialog.setTitle("Change Team Name");
         editTextDialog.setView(editText);
         editTextDialog.setButton(DialogInterface.BUTTON_POSITIVE, "Save", new DialogInterface.OnClickListener() {
@@ -189,6 +191,7 @@ public class FullscreenActivity extends AppCompatActivity {
             }
         });
 
+        //on click for the floating action button (bottom right)
         fAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -205,7 +208,7 @@ public class FullscreenActivity extends AppCompatActivity {
                      }
             }
         });
-
+        //if help pressed, open help page
         helpBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 helpDialog.setTitle("Help");
@@ -229,7 +232,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 helpDialog.show();
             }
         });
-
+        //if undo pressed, undo last stat
         undoBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
 
@@ -240,7 +243,7 @@ public class FullscreenActivity extends AppCompatActivity {
                 toast.show();
             }
         });
-
+        //if reset pressed, reset game data
         resetGameBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Toast toast=Toast.makeText(getApplicationContext(),"Game reset",Toast.LENGTH_SHORT);
@@ -262,7 +265,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
             }
         });
-
+        //if view data pressed, open data table page
         viewDataBtn.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                         popoutLayout.setVisibility(View.INVISIBLE);
@@ -272,10 +275,6 @@ public class FullscreenActivity extends AppCompatActivity {
                     }
                 });
 
-        //minPicker = findViewById(R.id.minutePicker);
-        //secPicker = findViewById(R.id.secondPicker);
-        //secPicker.setMinValue(0);
-        //secPicker.setMaxValue(59);
 
         // Set up the user interaction to manually show or hide the system UI.
         mContentView.setOnClickListener(new View.OnClickListener() {
@@ -291,7 +290,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
 
     }
-
+    //handler for resetting the recent stats text objects
     private void resetStatTexts() {
         textViewOne.setText("");
         textViewTwo.setText("");
@@ -352,7 +351,7 @@ public class FullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
-
+    //recognizerIntent function, called when microphone image or headset media button is pressed
     public void getSpeechInput(View view) {
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
 
@@ -369,28 +368,29 @@ public class FullscreenActivity extends AppCompatActivity {
     }
 
 
-    @Override
+    @Override //if you get a value returned from the recognizerIntent
     protected void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         super.onActivityResult(requestCode, resultCode, data);
-
+        //if codes match (no error)
         if (requestCode == 12)
-        {
+        {   //parse text
             if (resultCode == RESULT_OK && data != null)
             {
                 ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
                 textParse.ParseText(result.get(0), game.returnArray());
+                //if the parsed text is a new statistic, log it
                 if (textParse.isNewStat()) {
                     setStatTexts(textParse.getLastStat().toString());
                 }
-                else {
+                else { //incorrect input, show error toast
                     Toast.makeText(getApplicationContext(), "Incorrect input", Toast.LENGTH_SHORT).show();
                 }
 
             }
         }
     }
-
+    //handler for adding new stat to the recent stats text
     private void setStatTexts(String newestStat) {
         textViewFive.setText(textViewFour.getText());
         textViewFour.setText(textViewThree.getText());
@@ -398,7 +398,7 @@ public class FullscreenActivity extends AppCompatActivity {
         textViewTwo.setText(textViewOne.getText());
         textViewOne.setText(newestStat);
     }
-
+    //handler for removing most recent stat from the recent stats text
     private void undoStatTexts()
     {
         textViewOne.setText(textViewTwo.getText());
@@ -408,7 +408,7 @@ public class FullscreenActivity extends AppCompatActivity {
         textViewFive.setText("");
     }
 
-
+    //Chronometer start pressed
     public void startChronometer(View view) {
 
             chronometer.setBase(SystemClock.elapsedRealtime() - pauseOffset);
@@ -417,7 +417,7 @@ public class FullscreenActivity extends AppCompatActivity {
             resetBtn.setVisibility(View.VISIBLE);
             stopBtn.setVisibility(View.VISIBLE);
     }
-
+    //Chronometer reset pressed
     public void resetChronometer(View view) {
                 chronometer.setBase(SystemClock.elapsedRealtime());
                 pauseOffset = 0;
@@ -429,7 +429,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
             //1 second = 1000
     }
-
+    //Chronometer stop pressed
     public void stopChronometer(View view) {
 
             chronometer.stop();
@@ -437,22 +437,23 @@ public class FullscreenActivity extends AppCompatActivity {
             stopBtn.setVisibility(View.GONE);
             startBtn.setVisibility(View.VISIBLE);
     }
-
-    public void changeText() {
-        editText.setText(teamTextView.getText());
-        editTextDialog.show();
-    }
-
+    //Team One (left) name has been pressed
     public void changeTeamOne(View view) {
         teamTextView = teamOneTV;
         changeText();
     }
-
+    //Team Two (right) name has been pressed
     public void changeTeamTwo(View view) {
         teamTextView = teamTwoTV;
         changeText();
     }
 
+    //Change the text for the team name
+    public void changeText() {
+        editText.setText(teamTextView.getText());
+        editTextDialog.show();
+    }
+    //give headset media button same functionality as the microphone image
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode == KeyEvent.KEYCODE_HEADSETHOOK){

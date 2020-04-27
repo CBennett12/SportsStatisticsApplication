@@ -10,7 +10,23 @@
     <string name="start">TÚS</string>
     <string name="reset">ATHSOCRÚ</string>
     <string name="undo">CEALAIGH</string>
-    <string name="message">Chun an aip seo a úsaid…</string>
+    <string name="message">"Chun an aip seo a úsaid, deir tú trí phríomh-ordú chun staitistic a logáil. Ar dtús, deir tú ainm an foireann más ainm focal amháin é, ná \"left\" nó \"right\" don fhoireann ar chlé nó ar dheis, ansin uimhir imreoir agus eochairfhocal an staitistic ón bhfoclóir thíos:\n
+        cúl ón imirt\t- goal\n
+        cúilín ón imirt\t- point\n
+        cúl ón poc saor\t- goal free\n
+        cúilín ón poc saor\t- point free\n
+        seacha \t- wide\n
+        poc gearr don cúl baire\t- short\n
+        seilbh buatha\t- turnover\n
+        pas críochnaithe\t- pass\n
+        seilbh caillte\t- loss\n
+        feall bronnta\t- award\n
+        feall caillte\t- concede\n
+        65 buatha\t- behind\n
+        yellow carta buí bronnta\t- yellow\n
+        carta dearg díreach bronnta\t- red.\n
+        mar shampla, logáil\n 'left 11 point'\n cúlín don imreoir 11 ar on fhoireann ar ar thaobh na chlé den scáileán,
+        agus logáil 'Kilkenny 14 goal free' cúl ón poc saor don uimhir 14 don Chill Ceannaigh. "</string>
     <string name="speech_prompt">Labhair Staitistic…</string>
     <string name="title_activity_table">gníomhaíochtTábla</string>
     <string name="dummy_button">Saor Cnaipe</string>

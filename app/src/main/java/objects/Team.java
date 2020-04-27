@@ -64,7 +64,7 @@ void updateScore(String type, int update) {
         }
         return null;
     }
-
+    //reset Team data
     public void clear()
     {
         goals = 0;
@@ -73,32 +73,6 @@ void updateScore(String type, int update) {
         {
             Players.set(i, new Player(i+1));
         }
-    }
-
-    public String toString() {
-        String[] stats = {"goal", "point", "wide", "short", "poss won", "poss lost", "free award", "free concede"};
-        String output = "";
-        int temp;
-        for (String stat : stats)
-        {
-            temp = getMax(stat);
-            if (temp != 0) output = output.concat(temp + "\n");
-            else output = output.concat("\n");
-        }
-        return output;
-    }
-
-    private int getMax(String stat)
-    {
-        int max = 0;
-        for (int i = 1; i < this.size(); i++)
-        {
-            if (Players.get(max).getStat(stat) < Players.get(i).getStat(stat))
-                max = i;
-        }
-        if (max > 0)
-        return Players.get(max).getJerseyNumber();
-        else return 0;
     }
 
     public int size()
