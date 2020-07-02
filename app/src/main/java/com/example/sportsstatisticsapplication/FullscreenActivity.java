@@ -75,7 +75,7 @@ public class FullscreenActivity extends AppCompatActivity {
 
     /**
      * Some older devices needs a small delay between UI widget updates
-     * and a change of the status and navigation bar.
+     * and a change of the status and navigation bar
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
